@@ -1,5 +1,5 @@
 # Project 2: Battle Game
-
+This is a fork created by 许一诺.
 ## 前言
 
 本课程的 Project 2 的设计主题是团队和创造。希望大家能够通过这个 Project 初步体会到利用 Git 仓库进行团队合作的感觉以及自由发挥创造力感受编程的快乐。
