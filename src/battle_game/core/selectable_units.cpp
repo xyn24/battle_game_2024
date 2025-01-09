@@ -21,6 +21,7 @@ void GameCore::GeneratePrimaryUnitList() {
   /*
    * TODO: Add Your Unit Here!
    * */
+  ADD_SELECTABLE_UNIT(unit::ElecTank_ng57683);
   ADD_SELECTABLE_UNIT(unit::Tank);
 
   unit.reset();
