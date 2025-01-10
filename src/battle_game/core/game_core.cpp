@@ -157,6 +157,20 @@ Obstacle *GameCore::GetBlockedObstacle(glm::vec2 p) const {
   return nullptr;
 }
 
+glm::vec2 GameCore::GetParallelDirectionByObstacles(glm::vec2 p_1, glm::vec2 p_2) const {
+  if (!IsOutOfRange(p_1)) {
+    return GetBlockedObstacle(p_1)->GetParallelDirection(p_1, p_2);
+  }
+  else {
+    if (p_1.x < boundary_low_.x || p_1.x > boundary_high_.x) {
+      return {0.0f, 1.0f};
+    }
+    if (p_1.y < boundary_low_.y || p_1.y > boundary_high_.y) {
+      return {1.0f, 0.0f};
+    }
+  }
+}
+
 void GameCore::PushEventMoveUnit(uint32_t unit_id, glm::vec2 new_position) {
   event_queue_.emplace([this, unit_id, new_position]() {
     auto unit = GetUnit(unit_id);

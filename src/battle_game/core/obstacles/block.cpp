@@ -16,6 +16,21 @@ bool Block::IsBlocked(glm::vec2 p) const {
          p.y >= -scale_.y;
 }
 
+glm::vec2 Block::GetParallelDirection(glm::vec2 p_1, glm::vec2 p_2) const {
+  if (!IsBlocked(p_1)) {
+    return {0.0f, 0.0f};
+  }
+  p_1 = WorldToLocal(p_1);
+  p_2 = WorldToLocal(p_2);
+  if (p_2.x > scale_.x || p_2.x < -scale_.x) {
+    return {0.0f, 1.0f};
+  }
+  if (p_2.y > scale_.y || p_2.y < -scale_.y) {
+    return {1.0f, 0.0f};
+  }
+}
+
+
 void Block::Render() {
   battle_game::SetColor(glm::vec4{0.0f, 0.0f, 0.0f, 1.0f});
   battle_game::SetTexture(0);

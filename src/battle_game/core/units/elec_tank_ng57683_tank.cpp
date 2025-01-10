@@ -19,11 +19,11 @@ ElecTank_ng57683::ElecTank_ng57683(GameCore *game_core, uint32_t id, uint32_t pl
       /* Tank Body */
       tank_body_model_index = mgr->RegisterModel(
           {
-              {{-0.8f, -1.0f}, {0.0f, 0.0f}, {169/255, 169/255, 169/255, 1.0}},
-              {{0.8f, -1.0f}, {0.0f, 0.0f}, {169/255, 169/255, 169/255, 1.0}},
+              {{-0.8f, -1.0f}, {0.0f, 0.0f}, {22/255, 124/255 ,173/255, 1.0}},
+              {{0.8f, -1.0f}, {0.0f, 0.0f}, {22/255, 124/255 ,173/255, 1.0}},
               // distinguish front and back
-              {{0.6f, 1.0f}, {0.0f, 0.0f}, {169/255, 169/255, 169/255, 1.0}},
-              {{-0.6f, 1.0f}, {0.0f, 0.0f}, {169/255, 169/255, 169/255, 1.0}},
+              {{0.6f, 1.0f}, {0.0f, 0.0f}, {22/255, 124/255 ,173/255, 1.0}},
+              {{-0.6f, 1.0f}, {0.0f, 0.0f}, {22/255, 124/255 ,173/255, 1.0}},
           },
           {0, 1, 2, 0, 2, 3});
     }
@@ -89,10 +89,10 @@ void ElecTank_ng57683::TankMove(float move_speed, float rotate_angular_speed) {
     auto &input_data = player->GetInputData();
     glm::vec2 offset{0.0f};
     if (input_data.key_down[GLFW_KEY_W]) {
-      offset.y += 0.5f;
+      offset.y += 0.7f;
     }
     if (input_data.key_down[GLFW_KEY_S]) {
-      offset.y -= 0.5f;
+      offset.y -= 0.7f;
     }
     float speed = move_speed * GetSpeedScale();
     offset *= kSecondPerTick * speed;
@@ -103,12 +103,19 @@ void ElecTank_ng57683::TankMove(float move_speed, float rotate_angular_speed) {
     if (!game_core_->IsBlockedByObstacles(new_position)) {
       game_core_->PushEventMoveUnit(id_, new_position);
     }
+    else {
+      auto parallel_direction = game_core_->GetParallelDirectionByObstacles(new_position, position_);
+      auto proj_new_position = position_ + glm::dot(new_position - position_, parallel_direction) * parallel_direction;
+      if (!game_core_->IsBlockedByObstacles(proj_new_position)) {
+        game_core_->PushEventMoveUnit(id_, proj_new_position);
+      }
+    }
     float rotation_offset = 0.0f;
     if (input_data.key_down[GLFW_KEY_A]) {
-      rotation_offset += 0.5f;
+      rotation_offset += 0.7f;
     }
     if (input_data.key_down[GLFW_KEY_D]) {
-      rotation_offset -= 0.5f;
+      rotation_offset -= 0.7f;
     }
     rotation_offset *= kSecondPerTick * rotate_angular_speed * GetSpeedScale();
     game_core_->PushEventRotateUnit(id_, rotation_ + rotation_offset);
